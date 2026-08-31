@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "997994901757",
+    "project_id": "cartoonflix-c49e6",
+    "storage_bucket": "cartoonflix-c49e6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:997994901757:android:1980885c2a38b7c9920e94",
+        "android_client_info": {
+          "package_name": "com.example.cartoon_movies"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD47Ib_ZYJ19ROSIp9lTXf8ByzHZe_WAL8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
