@@ -23,6 +23,8 @@ class MovieDetailsScreen extends StatelessWidget {
 
         final bool isFavorite = provider.isFavorite(movie);
 
+        final bool isWantToWatch = provider.isWantToWatch(movie);
+
         final bool isWatching = provider.isWatching(movie);
 
         final bool isWatched = provider.isWatched(movie);
@@ -140,104 +142,159 @@ class MovieDetailsScreen extends StatelessWidget {
 
                 const SizedBox(height: 30),
 
-                // ==================== Favorite + Watching ====================
-                Row(
+                // ====================================================
+                // Movie Actions
+                // ====================================================
+                Column(
                   children: [
-                    // ==================== Favorite ====================
+                    // ==================== First Row ====================
 
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          provider.toggleFavorite(movie);
-                        },
+                    Row(
+                      children: [
+                        // ==================== Favorite ====================
 
-                        icon: Icon(
-                          isFavorite ? Icons.favorite : Icons.favorite_border,
-                        ),
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              provider.toggleFavorite(movie);
+                            },
 
-                        label: Text(isFavorite ? 'Favorited' : 'Favorite'),
+                            icon: Icon(
+                              isFavorite
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                            ),
 
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.deepPurple,
+                            label: Text(isFavorite ? 'Favorited' : 'Favorite'),
 
-                          foregroundColor: Colors.white,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.deepPurple,
 
-                          padding: const EdgeInsets.symmetric(vertical: 14),
+                              foregroundColor: Colors.white,
 
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+
+                        const SizedBox(width: 12),
+
+                        // ==================== Want To Watch ====================
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            onPressed: () {
+                              provider.toggleWantToWatch(movie);
+                            },
+
+                            icon: Icon(
+                              isWantToWatch
+                                  ? Icons.bookmark
+                                  : Icons.bookmark_border,
+                            ),
+
+                            label: Text(
+                              isWantToWatch ? 'In Watchlist' : 'Want to Watch',
+                            ),
+
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: Colors.white,
+
+                              side: const BorderSide(color: Colors.deepPurple),
+
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
 
-                    const SizedBox(width: 12),
+                    const SizedBox(height: 12),
 
-                    // ==================== Watching ====================
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: () {
-                          provider.toggleWatching(movie);
-                        },
+                    // ==================== Second Row ====================
+                    Row(
+                      children: [
+                        // ==================== Watching ====================
 
-                        icon: Icon(
-                          isWatching
-                              ? Icons.play_circle
-                              : Icons.play_circle_outline,
-                        ),
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            onPressed: () {
+                              provider.toggleWatching(movie);
+                            },
 
-                        label: Text(isWatching ? 'Watching' : 'Watch Now'),
+                            icon: Icon(
+                              isWatching
+                                  ? Icons.play_circle
+                                  : Icons.play_circle_outline,
+                            ),
 
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: Colors.white,
+                            label: Text(isWatching ? 'Watching' : 'Watch Now'),
 
-                          side: const BorderSide(color: Colors.deepPurple),
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: Colors.white,
 
-                          padding: const EdgeInsets.symmetric(vertical: 14),
+                              side: const BorderSide(color: Colors.deepPurple),
 
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+
+                        const SizedBox(width: 12),
+
+                        // ==================== Watched ====================
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            onPressed: () {
+                              provider.toggleWatched(movie);
+                            },
+
+                            icon: Icon(
+                              isWatched
+                                  ? Icons.check_circle
+                                  : Icons.check_circle_outline,
+                            ),
+
+                            label: Text(
+                              isWatched ? 'Watched' : 'Mark as Watched',
+                            ),
+
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: isWatched
+                                  ? Colors.green
+                                  : Colors.white,
+
+                              side: BorderSide(
+                                color: isWatched
+                                    ? Colors.green
+                                    : Colors.deepPurple,
+                              ),
+
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
 
-                const SizedBox(height: 15),
-
-                // ==================== Watched ====================
-                SizedBox(
-                  width: double.infinity,
-
-                  child: OutlinedButton.icon(
-                    onPressed: () {
-                      provider.toggleWatched(movie);
-                    },
-
-                    icon: Icon(
-                      isWatched
-                          ? Icons.check_circle
-                          : Icons.check_circle_outline,
-                    ),
-
-                    label: Text(isWatched ? 'Watched' : 'Mark as Watched'),
-
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: isWatched ? Colors.green : Colors.white,
-
-                      side: BorderSide(
-                        color: isWatched ? Colors.green : Colors.deepPurple,
-                      ),
-
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                  ),
-                ),
+                const SizedBox(height: 20),
               ],
             ),
           ),

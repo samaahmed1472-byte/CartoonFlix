@@ -353,42 +353,47 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 const SizedBox(height: 20),
 
-                // ==================== Genre ====================
+                // ==================== Genre + Title ====================
                 Row(
-                  children: [
-                    const Text(
-                      'Genre: ',
-                      style: TextStyle(color: Colors.white70, fontSize: 16),
-                    ),
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
 
+                  children: [
+                    // Popular Movies - Left
                     Text(
-                      provider.selectedGenre,
+                      provider.filteredMovies.isEmpty
+                          ? 'No Movies Found'
+                          : 'Popular Movies',
 
                       style: const TextStyle(
-                        color: Colors.deepPurpleAccent,
-                        fontSize: 16,
+                        color: Colors.white,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
+                    ),
+
+                    // Genre - Right
+                    Row(
+                      children: [
+                        const Text(
+                          'Genre: ',
+                          style: TextStyle(color: Colors.white60, fontSize: 14),
+                        ),
+
+                        Text(
+                          provider.selectedGenre,
+                          style: const TextStyle(
+                            color: Colors.deepPurpleAccent,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
 
-                const SizedBox(height: 15),
-
-                // ==================== Title ====================
-                Text(
-                  provider.filteredMovies.isEmpty
-                      ? 'No Movies Found'
-                      : 'Popular Movies',
-
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-
-                const SizedBox(height: 15),
+                const SizedBox(height: 10),
 
                 // ==================== Grid ====================
                 Expanded(
