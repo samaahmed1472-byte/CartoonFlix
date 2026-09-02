@@ -197,7 +197,7 @@ class MovieDetailsScreen extends StatelessWidget {
                             ),
 
                             label: Text(
-                              isWantToWatch ? 'In Watchlist' : 'Want to Watch',
+                              isWantToWatch ? 'Want to Watch' : 'Want to Watch',
                             ),
 
                             style: OutlinedButton.styleFrom(

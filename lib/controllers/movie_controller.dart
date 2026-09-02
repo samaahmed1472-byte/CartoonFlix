@@ -106,8 +106,14 @@ class MovieController extends ChangeNotifier {
   // ==================== Favorite ====================
 
   Future<void> toggleFavorite(dynamic movie) async {
-    if (favorites.contains(movie)) {
-      favorites.remove(movie);
+    final movieId = movie['id'];
+
+    final index = favorites.indexWhere(
+      (favorite) => favorite['id'] == movieId,
+    );
+
+    if (index != -1) {
+      favorites.removeAt(index);
     } else {
       favorites.add(movie);
     }
@@ -121,18 +127,34 @@ class MovieController extends ChangeNotifier {
   // ==================== Watching ====================
 
   Future<void> toggleWatching(dynamic movie) async {
-    if (watchingNow.contains(movie)) {
-      watchingNow.remove(movie);
+    final movieId = movie['id'];
+
+    final index = watchingNow.indexWhere(
+      (item) => item['id'] == movieId,
+    );
+
+    if (index != -1) {
+      // Remove from Watching Now
+      watchingNow.removeAt(index);
     } else {
+      // Add to Watching Now
       watchingNow.add(movie);
 
       // Remove from Watched
-      watched.remove(movie);
+      watched.removeWhere(
+        (item) => item['id'] == movieId,
+      );
+
+      // Remove from Want To Watch
+      wantToWatch.removeWhere(
+        (item) => item['id'] == movieId,
+      );
     }
 
-    // Save both lists
+    // Save all affected lists
     await MovieDatabase.saveWatching(watchingNow);
     await MovieDatabase.saveWatched(watched);
+    await MovieDatabase.saveWantToWatch(wantToWatch);
 
     notifyListeners();
   }
@@ -140,18 +162,34 @@ class MovieController extends ChangeNotifier {
   // ==================== Watched ====================
 
   Future<void> toggleWatched(dynamic movie) async {
-    if (watched.contains(movie)) {
-      watched.remove(movie);
+    final movieId = movie['id'];
+
+    final index = watched.indexWhere(
+      (item) => item['id'] == movieId,
+    );
+
+    if (index != -1) {
+      // Remove from Watched
+      watched.removeAt(index);
     } else {
+      // Add to Watched
       watched.add(movie);
 
       // Remove from Watching Now
-      watchingNow.remove(movie);
+      watchingNow.removeWhere(
+        (item) => item['id'] == movieId,
+      );
+
+      // Remove from Want To Watch
+      wantToWatch.removeWhere(
+        (item) => item['id'] == movieId,
+      );
     }
 
-    // Save both lists
+    // Save all affected lists
     await MovieDatabase.saveWatched(watched);
     await MovieDatabase.saveWatching(watchingNow);
+    await MovieDatabase.saveWantToWatch(wantToWatch);
 
     notifyListeners();
   }
@@ -159,36 +197,75 @@ class MovieController extends ChangeNotifier {
   // ==================== Want To Watch ====================
 
   Future<void> toggleWantToWatch(dynamic movie) async {
-    if (wantToWatch.contains(movie)) {
-      wantToWatch.remove(movie);
+    final movieId = movie['id'];
+
+    final index = wantToWatch.indexWhere(
+      (item) => item['id'] == movieId,
+    );
+
+    if (index != -1) {
+      // Remove from Want To Watch
+      wantToWatch.removeAt(index);
     } else {
+      // Add to Want To Watch
       wantToWatch.add(movie);
+
+      // Remove from Watching Now
+      watchingNow.removeWhere(
+        (item) => item['id'] == movieId,
+      );
+
+      // Remove from Watched
+      watched.removeWhere(
+        (item) => item['id'] == movieId,
+      );
     }
 
+    // Save all affected lists
     await MovieDatabase.saveWantToWatch(wantToWatch);
+    await MovieDatabase.saveWatching(watchingNow);
+    await MovieDatabase.saveWatched(watched);
 
     notifyListeners();
-  }
-
-  bool isWantToWatch(dynamic movie) {
-    return wantToWatch.contains(movie);
   }
 
   // ==================== Check Favorite ====================
 
   bool isFavorite(dynamic movie) {
-    return favorites.contains(movie);
+    final movieId = movie['id'];
+
+    return favorites.any(
+      (favorite) => favorite['id'] == movieId,
+    );
   }
 
   // ==================== Check Watching ====================
 
   bool isWatching(dynamic movie) {
-    return watchingNow.contains(movie);
+    final movieId = movie['id'];
+
+    return watchingNow.any(
+      (item) => item['id'] == movieId,
+    );
   }
 
   // ==================== Check Watched ====================
 
   bool isWatched(dynamic movie) {
-    return watched.contains(movie);
+    final movieId = movie['id'];
+
+    return watched.any(
+      (item) => item['id'] == movieId,
+    );
+  }
+
+  // ==================== Check Want To Watch ====================
+
+  bool isWantToWatch(dynamic movie) {
+    final movieId = movie['id'];
+
+    return wantToWatch.any(
+      (item) => item['id'] == movieId,
+    );
   }
 }
