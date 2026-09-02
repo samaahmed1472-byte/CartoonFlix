@@ -5,16 +5,26 @@ import 'package:provider/provider.dart';
 import 'services/firebase_options.dart';
 import 'providers/movie_provider.dart';
 import 'screens/splash_screen.dart';
+import 'database/movie_database.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize Firebase
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // Initialize Hive
+  await MovieDatabase.init();
 
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => MovieProvider())],
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => MovieProvider(),
+        ),
+      ],
       child: const MyApp(),
     ),
   );
