@@ -74,10 +74,6 @@ class MovieProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool isWantToWatch(dynamic movie) {
-    return controller.isWantToWatch(movie);
-  }
-
   // ==================== Check Status ====================
 
   bool isFavorite(dynamic movie) {
@@ -90,5 +86,9 @@ class MovieProvider extends ChangeNotifier {
 
   bool isWatched(dynamic movie) {
     return controller.isWatched(movie);
+  }
+
+  bool isWantToWatch(dynamic movie) {
+    return controller.isWantToWatch(movie);
   }
 }
